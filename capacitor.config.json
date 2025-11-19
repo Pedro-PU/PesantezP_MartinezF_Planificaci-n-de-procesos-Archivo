@@ -1,0 +1,8 @@
+{
+  "appId": "ionic.procesosmartinezfpesantezp",
+  "appName": "procesosmartinezfpesantezp",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  }
+}

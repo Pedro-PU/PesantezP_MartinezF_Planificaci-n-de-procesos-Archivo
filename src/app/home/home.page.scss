@@ -1,0 +1,232 @@
+/* ====== CONTENEDOR GENERAL ====== */
+.page-wrapper {
+  padding: 16px;
+  animation: fadePage 0.4s ease-out;
+}
+@keyframes fadePage {
+  from { opacity:0; transform: translateY(8px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+
+/* ====== CARDS ====== */
+.card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  border: 1px solid #eaeaea;
+}
+.card-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.card-subtitle {
+  margin-top: 16px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Animaciones de entrada */
+.fade-in {
+  animation: fadeIn 0.4s ease-out;
+}
+.fade-in-up {
+  animation: fadeInUp 0.5s ease-out;
+}
+@keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+@keyframes fadeInUp {
+  from { opacity:0; transform:translateY(10px); }
+  to { opacity:1; transform:translateY(0); }
+}
+
+/* ====== BOTONES ====== */
+.btn-animate {
+  transition: transform .15s ease, box-shadow .2s ease;
+}
+.btn-animate:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+}
+
+/* ====== INPUTS ====== */
+.styled-item {
+  --background: #fafafa;
+  --border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+/* ====== GANTT ====== */
+.gantt.glossy {
+  background: linear-gradient(120deg,#f0f8ff,#f7fbff);
+  border-radius: 12px;
+  padding: 12px;
+  border: 1px solid #dce7f1;
+}
+
+.gantt-inner {
+  position: relative;
+  height: 64px;
+}
+
+.gantt-item {
+  position: absolute;
+  height: 44px;
+  top: 10px;
+  border-radius: 10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight: 600;
+  color:#333;
+  opacity: 0;
+  animation: slideBlock .4s ease forwards;
+}
+@keyframes slideBlock {
+  from {
+    transform: translateY(8px) scale(.95);
+    opacity:0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity:1;
+  }
+}
+
+/* ===== FILAS ANIMADAS ===== */
+.list-animate {
+  animation: fadeIn 0.35s ease-out;
+}
+
+/* ====== TABLA DE MÉTRICAS ====== */
+.metric-table {
+  width:100%;
+  border-collapse: collapse;
+}
+.metric-table th {
+  padding:6px 8px; 
+  border-bottom:2px solid #ccc;
+}
+.metric-table td {
+  padding:6px 8px;
+  border-bottom:1px solid #eee;
+}
+.big-metric {
+  margin-top:12px;
+  font-size: 16px;
+}
+/* === MEJORAS DE CONTRASTE Y LECTURA (PEGAR AL FINAL) === */
+
+/* Fondo general suave para que las cards destaquen */
+ion-content {
+  --background: #f5f7fa; /* fondo de página */
+}
+
+/* Toolbar/header: fondo oscuro y título claro (opcional) */
+ion-toolbar {
+  --background: linear-gradient(90deg, #0f4c5c, #0b6b78) !important;
+  color: #ffffff !important;
+}
+ion-title {
+  color: #ffffff !important;
+  font-weight: 700;
+}
+
+/* Card: texto oscuro, título y subtítulo contrastados */
+.card {
+  background: #ffffff; /* card blanco limpio */
+  color: #0b2b34;      /* texto principal oscuro */
+}
+.card-title {
+  color: #0b3d4a !important;   /* título: azul petróleo oscuro */
+  font-weight: 700;
+}
+.card-subtitle {
+  color: #0f5566 !important;   /* subtítulos ligeramente más claros */
+}
+
+/* Inputs / labels */
+ion-label, .styled-item ion-label {
+  color: #234048 !important;
+  font-weight: 600;
+}
+ion-input, .ion-input {
+  color: #122329 !important;
+}
+
+/* Botones: aseguro texto visible en botones claros/oscuro */
+ion-button[color="success"], ion-button[color="primary"], ion-button[color="medium"] {
+  --color: #ffffff; /* texto blanco dentro de botón */
+  font-weight: 600;
+  box-shadow: 0 6px 14px rgba(11,31,43,0.08);
+}
+
+/* Lista de procesos: texto legible */
+ion-list ion-item, .list-animate {
+  background: transparent !important;
+  color: #0b2b34 !important;
+}
+
+/* Gantt: forzar contraste en los nombres de bloque */
+.gantt.glossy { 
+  background: linear-gradient(120deg,#f0f8ff,#f7fbff) !important; 
+}
+.gantt-item {
+  color: #08121a !important; /* texto oscuro sobre bloques pastel */
+  font-weight: 700;
+  text-shadow: none !important;
+  box-shadow: 0 6px 12px rgba(17,24,29,0.06);
+}
+
+/* Si algún bloque tiene fondo muy claro, forzamos un borde visible */
+.gantt-item {
+  border: 1px solid rgba(11,31,43,0.06) !important;
+}
+
+/* Tabla métricas: encabezado con mayor contraste */
+.metric-table th {
+  background: #f4f7fb;
+  color: #0b3d4a;
+  font-weight: 700;
+}
+.metric-table td {
+  color: #0b2b34;
+}
+
+/* Ajustes de impresión (mantener contraste) */
+@media print {
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  ion-toolbar { display: none !important; } /* opcional: oculta toolbar en impresión */
+  .gantt-item { color: #000 !important; border-color: #333 !important; }
+  .card-title, .card-subtitle, .metric-table th, .metric-table td { color: #000 !important; }
+}
+/* ============================================
+   COLORES PARA LOS BLOQUES DEL DIAGRAMA GANTT
+   ============================================ */
+
+/* 6 colores pastel premium */
+.color-1 { background:#a3d8ff !important; }   /* celeste pastel */
+.color-2 { background:#ffcfdf !important; }   /* rosado pastel */
+.color-3 { background:#caffe8 !important; }   /* verde menta pastel */
+.color-4 { background:#ffd59e !important; }   /* durazno pastel */
+.color-5 { background:#d7b4f3 !important; }   /* lila pastel */
+.color-6 { background:#b9f2ff !important; }   /* aqua pastel */
+
+/* Texto oscuro para legibilidad */
+.gantt-item.color-1,
+.gantt-item.color-2,
+.gantt-item.color-3,
+.gantt-item.color-4,
+.gantt-item.color-5,
+.gantt-item.color-6 {
+  color:#0b2b34 !important;
+}
+.footer-authors {
+  text-align: center;
+  padding: 14px 0;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #46626b;
+  opacity: 0.8;
+  border-top: 1px solid #d6e1e7;
+}
