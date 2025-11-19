@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
-import { SchedulerService, Process, SchedulerResult } from './scheduler.service';
+import { SchedulerService, Process, SchedulerResult } from '../services/scheduler';
 
 @Component({
   selector: 'app-home',

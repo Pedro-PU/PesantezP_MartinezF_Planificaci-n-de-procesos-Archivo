@@ -12,7 +12,7 @@ export interface GanttItem {
   name: string;
   start: number;
   end: number;
-  colorIndex: number;   // ✔️ agregado para manejar colores en el Gantt
+  colorIndex: number;
 }
 
 export interface SchedulerResult {
@@ -27,32 +27,33 @@ export interface SchedulerResult {
 })
 export class SchedulerService {
 
-  // --------------------------------------------------------------------
-  // Función auxiliar para asignar un color coherente a cada proceso
-  // --------------------------------------------------------------------
+  // --------------------------------------------
+  // Color generado según el ID del proceso
+  // --------------------------------------------
   private hashColor(id: string): number {
     let sum = 0;
     for (let i = 0; i < id.length; i++) {
       sum += id.charCodeAt(i);
     }
-    return (sum % 6) + 1;  // Genera color-1 ... color-6
+    return (sum % 6) + 1; // Colores entre 1 y 6
   }
 
-  // --------------------------------------------------------------------
-  // Round Robin (preemptive)
-  // --------------------------------------------------------------------
+  // --------------------------------------------
+  // ROUND ROBIN
+  // --------------------------------------------
   roundRobin(processes: Process[], quantum: number): SchedulerResult {
 
     const queue = processes.map(p => ({ ...p, remaining: p.burst }));
     const gantt: GanttItem[] = [];
-    const waiting: { [k: string]: number } = {};
-    const turnaround: { [k: string]: number } = {};
+    const waiting: { [id: string]: number } = {};
+    const turnaround: { [id: string]: number } = {};
 
     for (const p of queue) waiting[p.id] = 0;
 
     let time = 0;
 
     while (queue.some(p => p.remaining > 0)) {
+
       const p = queue.shift()!;
       if (p.remaining <= 0) continue;
 
@@ -62,7 +63,6 @@ export class SchedulerService {
       p.remaining -= exec;
       const end = time;
 
-      // ✔️ Agregar colorIndex aquí
       gantt.push({
         id: p.id,
         name: p.name,
@@ -71,13 +71,14 @@ export class SchedulerService {
         colorIndex: this.hashColor(p.id)
       });
 
-      if (p.remaining > 0) queue.push(p);
-      else {
+      if (p.remaining > 0) {
+        queue.push(p);
+      } else {
         turnaround[p.id] = end;
         waiting[p.id] = turnaround[p.id] - p.burst;
       }
 
-      // Incremento del tiempo de espera para los demás
+      // Sumar tiempo de espera a los demás
       for (const other of queue) {
         if (other.remaining > 0) {
           waiting[other.id] += exec;
@@ -96,21 +97,22 @@ export class SchedulerService {
     };
   }
 
-  // --------------------------------------------------------------------
-  // FCFS — First Come First Served (no-preemptive)
-  // --------------------------------------------------------------------
+  // --------------------------------------------
+  // FCFS
+  // --------------------------------------------
   fcfs(processes: Process[]): SchedulerResult {
+
     const gantt: GanttItem[] = [];
-    const waiting: { [k: string]: number } = {};
-    const turnaround: { [k: string]: number } = {};
+    const waiting: { [id: string]: number } = {};
+    const turnaround: { [id: string]: number } = {};
 
     let time = 0;
 
     for (const p of processes) {
+
       const start = time;
       const end = start + p.burst;
 
-      // ✔️ Agregar colorIndex también aquí
       gantt.push({
         id: p.id,
         name: p.name,
@@ -136,11 +138,12 @@ export class SchedulerService {
     };
   }
 
-  // --------------------------------------------------------------------
-  // Parser de filas del Excel / CSV
-  // --------------------------------------------------------------------
+  // --------------------------------------------
+  // Parser de filas (input manual, CSV o Excel)
+  // --------------------------------------------
   parseRows(rows: any[]): Process[] {
     return rows.map((r: any, i: number) => {
+
       const name =
         r.name ??
         r.Nombre ??
